@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-5-26 14:17:43 by Hibernate Tools 3.6.0.Final -->
+<hibernate-mapping>
+    <class name="model.Items" table="items" catalog="bookstore">
+    	<id name="id" type="int">
+    		<column name="id" />
+    		<generator class="identity" />
+    	</id>
+        <property name="oid" type="int">
+            <column name="oid" />
+        </property>
+        <property name="bid" type="int">
+           	<column name="bid" />
+        </property>
+        <property name="price" type="int">
+            <column name="price" not-null="true" />
+        </property>
+        <property name="num" type="java.lang.Integer">
+            <column name="num" />
+        </property>
+    </class>
+</hibernate-mapping>

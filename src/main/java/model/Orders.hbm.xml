@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-5-26 14:17:43 by Hibernate Tools 3.6.0.Final -->
+<hibernate-mapping>
+    <class name="model.Orders" table="orders" catalog="bookstore">
+        <id name="oid" type="int">
+            <column name="oid" />
+            <generator class="identity" />
+        </id>
+        <property name="uid" type="int">
+            <column name="uid" not-null="true" />
+        </property>
+        <property name="total" type="int">
+            <column name="total" not-null="true" />
+        </property>
+        <property name="time" type="timestamp">
+            <column name="time" length="19" not-null="true" />
+        </property>
+        <property name="status" type="string">
+            <column name="status" length="2" />
+        </property>
+        <set name="items" table="items" lazy="false" inverse="true">
+			<key column="oid" />
+			<one-to-many class="model.Items" />
+		</set>
+    </class>
+</hibernate-mapping>

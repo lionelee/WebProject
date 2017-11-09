@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-5-26 14:17:43 by Hibernate Tools 3.6.0.Final -->
+<hibernate-mapping>
+    <class name="model.Books" table="books" catalog="bookstore">
+        <id name="bid" type="java.lang.Integer">
+            <column name="bid" />
+            <generator class="identity" />
+        </id>
+        <property name="category" type="java.lang.Character">
+            <column name="category" length="1" />
+        </property>
+        <property name="isbn" type="string">
+            <column name="ISBN" length="13" not-null="true"/>
+        </property>
+        <property name="title" type="string">
+            <column name="title" length="1024" />
+        </property>
+        <property name="image" type="string">
+            <column name="image" length="1024" />
+        </property>
+        <property name="author" type="string">
+            <column name="author" length="200" />
+        </property>
+        <property name="press" type="string">
+            <column name="press" length="1024" />
+        </property>
+        <property name="price" type="int">
+            <column name="price" not-null="true" />
+        </property>
+        <property name="stock" type="java.lang.Integer">
+            <column name="stock" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,29 @@
+* {	font-family: 'Open Sans', sans-serif; }
+.templatemo-left-nav {
+	height:100%;
+	overflow:auto;
+	margin-left:-40px;
+	background: #1f2124; 
+}
+a:hover { text-decoration: none; }
+nav li {
+	font-size: 1.2em;
+	list-style: none;	
+	text-transform: uppercase;
+}
+.templatemo-inline-block {
+	display: inline-block;
+	vertical-align: middle;
+}
+.templatemo-left-nav a.active,
+.templatemo-left-nav a:hover {
+	color: #a3a3a3;
+	background: #18191b;
+	border-left: 8px solid #13895F;
+}
+.templatemo-left-nav a {
+	color: white;
+	display: block;
+	padding: 15px;
+	transition: all 0.3s ease;
+}

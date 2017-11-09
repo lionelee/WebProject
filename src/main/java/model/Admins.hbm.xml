@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-5-26 14:17:43 by Hibernate Tools 3.6.0.Final -->
+<hibernate-mapping>
+    <class name="model.Admins" table="admins" catalog="bookstore">
+        <id name="aid" type="int">
+            <column name="aid" />
+            <generator class="identity" />
+        </id>
+        <property name="aname" type="string">
+            <column name="aname" length="1024" not-null="true" />
+        </property>
+        <property name="apwd" type="string">
+            <column name="apwd" length="100" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-5-26 14:17:43 by Hibernate Tools 3.6.0.Final -->
+<hibernate-mapping>
+    <class name="model.Carts" table="carts" catalog="bookstore">
+        <composite-id name="id" class="model.CartsId">
+            <key-property name="uid" type="int">
+                <column name="uid" />
+            </key-property>
+            <key-property name="bid" type="int">
+                <column name="bid" />
+            </key-property>
+        </composite-id>
+        <property name="number" type="java.lang.Integer">
+            <column name="number" />
+        </property>
+    </class>
+</hibernate-mapping>

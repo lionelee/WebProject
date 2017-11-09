@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Struts2 DTD -->
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+<struts>
+	<constant name="struts.i18n.encoding" value="utf-8" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+	
+	<package name="userStruts" extends="struts-default">
+		<action name="book_*" class="action.BookAction" method="{1}">
+			<result name="success">index.jsp</result>
+			<result name="admin" type="redirect">/jsp/book.jsp</result>
+		</action>
+		<action name="user_*" class="action.UserAction" method="{1}">
+			<result name="success" type="redirect">index.jsp</result>
+			<result name="login" type="redirect">/JSP/login.jsp</result>
+			<result name="admin" type="redirect">/jsp/user.jsp</result>
+			<result name="edit" type="redirect">/JSP/person.jsp</result>
+		</action>
+		<action name="cart_*" class="action.CartAction" method="{1}">
+			<result name="add" type="redirect">/JSP/show.jsp</result>
+		</action>
+		<action name="order_*" class="action.OrderAction" method="{1}">
+			<result name="confirm" type="redirect">/JSP/order.jsp</result>
+			<result name="cart" type="redirect">/JSP/cart.jsp</result>
+			<result name="pay" type="redirect">/JSP/orders.jsp</result>
+			<result name="admin" type="redirect">/jsp/order.jsp</result>
+		</action>
+		<action name="admin_*" class="action.AdminAction" method="{1}">
+			<result name="success" type="redirect">/jsp/user.jsp</result>
+			<result name="login" type="redirect">admin.jsp</result>
+		</action>
+		<action name="item_*" class="action.ItemAction" method="{1}">
+		</action>
+		<action name="sale_*" class="action.SaleAction" method="{1}">
+		</action>
+	</package>
+</struts>

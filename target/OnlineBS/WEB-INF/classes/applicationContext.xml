@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Spring Schema -->
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans	 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/data/mongo
+	http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
+
+	<!-- Bean -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close" p:driverClass="com.mysql.jdbc.Driver"
+		p:jdbcUrl="jdbc:mysql://localhost:3306/bookstore" p:user="root"
+		p:password="5499" p:maxPoolSize="40" p:minPoolSize="1"
+		p:initialPoolSize="1" p:maxIdleTime="20"/>
+
+	<!-- Hibernate SessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+		p:dataSource-ref="dataSource">
+		<property name="mappingResources">
+			<list>
+				<value>model/Admins.hbm.xml</value>
+				<value>model/Users.hbm.xml</value>
+				<value>model/Books.hbm.xml</value>
+				<value>model/Orders.hbm.xml</value>
+				<value>model/Items.hbm.xml</value>
+				<value>model/Carts.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+				hibernate.hbm2ddl.auto=update
+				hibernate.show_sql=true
+				hibernate.format_sql=true
+			</value>
+		</property>
+	</bean>
+	
+	<!-- mongodb -->
+	<mongo:mongo host="localhost" port="27017">
+		<mongo:options 
+			connections-per-host="8"
+            threads-allowed-to-block-for-connection-multiplier="4"
+            connect-timeout="1000"
+            max-wait-time="1500"
+            auto-connect-retry="true"
+            socket-keep-alive="true"
+            socket-timeout="1500"
+            slave-ok="true"
+            write-number="1"
+            write-timeout="0"
+            write-fsync="true"/>
+	</mongo:mongo>
+	
+	<mongo:db-factory id="mongoDbFactory" dbname="bookstore" mongo-ref="mongo"/>
+    
+    <mongo:mapping-converter id="mongoConverter" db-factory-ref="mongoDbFactory"/>
+    
+    <bean id="gridFsTemplate" class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
+    	<constructor-arg ref="mongoDbFactory" />
+    	<constructor-arg ref="mongoConverter" />
+	</bean>
+	
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="mongoDbFactory" />
+	</bean>
+	
+	<!-- DAO Bean -->
+	<bean id="adminDao" class="daoImp.AdminDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="userDao" class="daoImp.UserDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="bookDao" class="daoImp.BookDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="orderDao" class="daoImp.OrderDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="itemDao" class="daoImp.ItemDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="cartDao" class="daoImp.CartDaoImp">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<!-- mongoDao bean -->
+	<bean id="fileDao" class="daoImp.FileDaoImp">
+		<property name="gridFsTemplate" ref="gridFsTemplate"></property>
+	</bean>
+	
+	<bean id="profileDao" class="daoImp.ProfileDaoImp">
+		<property name="mongoTemplate" ref="mongoTemplate"></property>
+	</bean>
+	
+
+	<!-- Service -->
+	<bean id="adminService" class="serviceImp.AdminServiceImp">
+		<property name="adminDao" ref="adminDao"></property>
+	</bean>
+	<bean id="userService" class="serviceImp.UserServiceImp">
+		<property name="userDao" ref="userDao"></property>
+		<property name="profileDao" ref="profileDao"></property>
+	</bean>
+	<bean id="bookService" class="serviceImp.BookServiceImp">
+		<property name="bookDao" ref="bookDao"></property>
+	</bean>
+	<bean id="orderService" class="serviceImp.OrderServiceImp">
+		<property name="orderDao" ref="orderDao"></property>
+		<property name="itemDao" ref="itemDao"></property>
+	</bean>
+	<bean id="cartService" class="serviceImp.CartServiceImp">
+		<property name="cartDao" ref="cartDao"></property>
+	</bean>
+	
+	<!-- mongo Service -->
+	<bean id="fileService" class="serviceImp.FileServiceImp">
+		<property name="fileDao" ref="fileDao"></property>
+	</bean>
+
+	<!-- HibernateTransactionManager -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory" />
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<!-- Service Bean -->
+		<aop:pointcut id="beanPointcut" expression="bean(bookService)||bean(adminService)||bean(userService)||bean(orderService)||bean(cartService)" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="beanPointcut" />
+	</aop:config>
+	
+
+</beans>

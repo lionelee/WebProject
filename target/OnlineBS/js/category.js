@@ -1,0 +1,50 @@
+ function cate(category){
+    	switch (category) {
+		case "A":
+			return "马列主义毛思邓论";
+		case "B":
+			return "哲学";
+		case "C":
+			return "社会科学总论";
+		case "D":
+			return "政治、法律";
+		case "E":
+			return "军事";
+		case "F":
+			return "经济";
+		case "G":
+			return "文化、科学、教育、体育";
+		case "H":
+			return "语言、文字";
+		case "I":
+			return "文学";
+		case "J":
+			return "艺术";
+		case "K":
+			return "历史、地理";
+		case "N":
+			return "自然科学总论";
+		case "O":
+			return "数理科学和化学";
+		case "P":
+			return "天文学、地球科学";
+		case "Q":
+			return "生物科学";
+		case "R":
+			return "医药、卫生";
+		case "S":
+			return "农业科学";
+		case "T":
+			return "工业技术";
+		case "U":
+			return "交通运输";
+		case "V":
+			return "航空、航天";
+		case "X":
+			return "环境科学、安全科学";
+		case "Z":
+			return "综合性图书";
+		default:
+			return category;
+		}
+    }

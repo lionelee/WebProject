@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-5-26 14:17:43 by Hibernate Tools 3.6.0.Final -->
+<hibernate-mapping>
+    <class name="model.Users" table="users" catalog="bookstore">
+        <id name="uid" type="int">
+            <column name="uid" />
+            <generator class="identity" />
+        </id>
+        <property name="username" type="string">
+            <column name="username" length="200" />
+        </property>
+         <property name="pwd" type="string">
+            <column name="pwd" length="200" />
+        </property>
+        <property name="level" type="java.lang.Integer">
+            <column name="level" />
+        </property>
+        <property name="firstname" type="string">
+            <column name="firstname" length="200" />
+        </property>
+        <property name="lastname" type="string">
+            <column name="lastname" length="200" not-null="true" />
+        </property>
+        <property name="phone" type="string">
+            <column name="phone" length="100" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="1024" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" length="1024" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
